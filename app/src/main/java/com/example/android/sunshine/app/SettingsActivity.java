@@ -82,6 +82,8 @@ public class SettingsActivity extends PreferenceActivity
 
             SettingsActivity settingsActivity = new SettingsActivity();
             settingsActivity.bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_location_key)));
+            settingsActivity.bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_units_key)));
+
 
         }
 
