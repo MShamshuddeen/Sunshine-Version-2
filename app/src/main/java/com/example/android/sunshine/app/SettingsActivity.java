@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 
@@ -24,10 +25,13 @@ public class SettingsActivity extends PreferenceActivity
         super.onCreate(savedInstanceState);
         // Add 'general' preferences, defined in the XML file
         // TODO: Add preferences from XML
+        getFragmentManager().beginTransaction().replace(android.R.id.content, new Pref1Fragment()).commit();
 
+        //   addPreferencesFromResource(R.xml.pref_general);
         // For all preferences, attach an OnPreferenceChangeListener so the UI summary can be
         // updated when the preference changes.
         // TODO: Add preferences
+        //  bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_location_key)));
     }
 
     /**
@@ -66,4 +70,20 @@ public class SettingsActivity extends PreferenceActivity
         return true;
     }
 
+    public static class Pref1Fragment extends PreferenceFragment {
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+
+            addPreferencesFromResource(R.xml.pref_general);
+
+            // For all preferences, attach an OnPreferenceChangeListener so the UI summary can be updated when the preference changes.
+            //make new class from SettingsActivity because bindPreferenceSummaryToValue is non static class
+
+            SettingsActivity settingsActivity = new SettingsActivity();
+            settingsActivity.bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_location_key)));
+
+        }
+
+    }
 }
