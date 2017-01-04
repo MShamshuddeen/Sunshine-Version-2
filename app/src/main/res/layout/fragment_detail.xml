@@ -2,12 +2,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.android.sunshine.app.DetailActivity$PlaceholderFragment">
+    tools:context="com.example.android.sunshine.app.DetailActivity$DetailFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/details_forecast_textview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_world" />
+        android:layout_margin="16dp"
+        android:text="" />
 
 </FrameLayout>
