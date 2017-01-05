@@ -1,6 +1,9 @@
 package com.example.android.sunshine.app;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -18,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.Inet4Address;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,6 +32,8 @@ import static android.R.attr.settingsActivity;
 
 
 public class MainActivity extends ActionBarActivity {
+
+    private final String LOG_TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +66,37 @@ public class MainActivity extends ActionBarActivity {
           startActivity(new Intent(this, SettingsActivity.class));
             return  true;
         }
+        if(id == R.id.action_map){
+
+            openPreferredLocationInMap();
+            return true;
+
+        }
 
         return super.onOptionsItemSelected(item);
+    }
+    private void openPreferredLocationInMap(){
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        String local = sharedPref.getString(getString(R.string.pref_location_key),getString(R.string.pref_location_default));
+
+        Uri geoLocation = Uri.parse("geo:0,0?").buildUpon()
+                .appendQueryParameter("q",local)
+                .build();
+
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(geoLocation);
+
+        if(intent.resolveActivity(getPackageManager()) != null){
+
+            startActivity(intent);
+
+        }
+        else{
+            Log.d(LOG_TAG,"Couldn't call " +local + ", no receiving apps installed");
+        }
+
     }
 
     /**
